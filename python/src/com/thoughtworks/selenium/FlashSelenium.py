@@ -87,6 +87,47 @@ class FlashSelenium(object):
     def t_call_frame(self, target, frameNumber):
         return self.call("TCallFrame", target, frameNumber)
     
+    def t_call_label(self, target, label):
+        return self.call("TCallLabel", target, label)
+    
+    def t_current_frame(self, target):
+        return self.call("TCurrentFrame", target)
+    
+    def t_current_label(self, target):
+        return self.call("TCurrentLabel", target)
+    
+    def t_get_property(self, target, property):
+        return self.call("TGetProperty", target, property)
+
+    def t_get_property_as_number(self, target, property):
+        return self.call("TGetPropertyAsNumber", target, property)
+    
+    def t_goto_frame(self, target, frameNumber):
+        return self.call("TGotoFrame", target, frameNumber)
+    
+    def t_goto_label(self, target, label):
+        return self.call("TGotoLabel", target, label)
+    
+    def t_play(self, target):
+        return self.call("TPlay", target)
+    
+    def t_set_property(self, property, value):
+        return self.call("TSetProperty", property, value)
+    
+    def t_stop_play(self, target):
+        return self.call("TStopPlay", target)
+    
+    #### Standard Events
+    
+    def on_progress(self, percent):
+        return self.call("OnProgress", percent)
+    
+    def on_ready_state_change(self, state):
+        return self.call("OnReadyStateChange", state)
+    
+
+    #### Custom Code
+    
     def checkBrowserAndReturnJSPrefix(self):
         indexOfMicrosoft = self.seleniumObj.get_eval("navigator.appName.indexOf(\"Microsoft Internet\")");
         if indexOfMicrosoft != -1:

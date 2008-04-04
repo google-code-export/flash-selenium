@@ -25,8 +25,8 @@ from FlashSelenium import FlashSelenium
 
 class FlashSeleniumTest(unittest.TestCase):
     
-    #URL = "http://www.geocities.com/paulocaroli/flash/colors.html"
-    URL = "http://localhost:1978/wiki/colors.html"
+    URL = "http://www.geocities.com/paulocaroli/flash/colors.html"
+    #URL = "http://localhost:1978/wiki/colors.html"
     
     def setUp(self):
         self.seleniumObj = selenium("localhost", 4444, "*firefox", self.URL)
@@ -36,7 +36,6 @@ class FlashSeleniumTest(unittest.TestCase):
         
     def tearDown(self):
         self.flashSeleniumObj.stop()
-        pass
 
     def testShouldOpenGoogleHomePage(self):
         seleniumObj = selenium("localhost", 4444, "*firefox", "http://www.google.co.in")
@@ -77,13 +76,14 @@ class FlashSeleniumTest(unittest.TestCase):
         
 #    def testShouldJumpToSpecifiedFrame(self):
 #        self.flashSeleniumObj.open(self.URL)
-#        self.flashSeleniumObj.goto_frame(1)
+#        self.flashSeleniumObj.goto_frame(3)
 #        self.assertEquals('BLUE', self.flashSeleniumObj.call('getColor'))
         
     def testShouldPanMovie(self):
         self.flashSeleniumObj.open(self.URL)
         try:
-            self.flashSeleniumObj.pan(50, 50, 1)
+            self.flashSeleniumObj.zoom(10)
+            self.flashSeleniumObj.pan(20, 20, 1)
         except:
             self.fail("Should not fail")
             
