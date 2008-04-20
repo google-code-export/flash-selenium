@@ -41,7 +41,7 @@ class FlashSelenium(object):
         self.flashJSStringPrefix = self.checkBrowserAndReturnJSPrefix()
         return self.seleniumObj.get_eval(self.jsForFunction(functionName, list(parameter)))
     
-    #### Standard Methods
+    #### Standard Methods ####
     
     def percent_loaded(self):
         return self.call("PercentLoaded")
@@ -82,7 +82,7 @@ class FlashSelenium(object):
     def zoom(self, percent):
         return self.call("Zoom", percent)
     
-    #### TellTarget Methods
+    #### TellTarget Methods ####
     
     def t_call_frame(self, target, frameNumber):
         return self.call("TCallFrame", target, frameNumber)
@@ -117,16 +117,15 @@ class FlashSelenium(object):
     def t_stop_play(self, target):
         return self.call("TStopPlay", target)
     
-    #### Standard Events
+    #### Standard Events ####
     
     def on_progress(self, percent):
         return self.call("OnProgress", percent)
     
     def on_ready_state_change(self, state):
         return self.call("OnReadyStateChange", state)
-    
 
-    #### Custom Code
+    #### Custom Code ####
     
     def checkBrowserAndReturnJSPrefix(self):
         indexOfMicrosoft = self.seleniumObj.get_eval("navigator.appName.indexOf(\"Microsoft Internet\")");

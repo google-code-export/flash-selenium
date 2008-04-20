@@ -74,11 +74,6 @@ class FlashSeleniumTest(unittest.TestCase):
         self.flashSeleniumObj.call("click")
         self.assertEquals('RED', self.flashSeleniumObj.call('getColor'))
         
-#    def testShouldJumpToSpecifiedFrame(self):
-#        self.flashSeleniumObj.open(self.URL)
-#        self.flashSeleniumObj.goto_frame(3)
-#        self.assertEquals('BLUE', self.flashSeleniumObj.call('getColor'))
-        
     def testShouldPanMovie(self):
         self.flashSeleniumObj.open(self.URL)
         try:
