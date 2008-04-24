@@ -24,27 +24,36 @@ require 'ruby/src/com/thoughtworks/selenium/selenium.rb'
 require 'ruby/src/com/thoughtworks/selenium/FlashSelenium.rb'
 
 class FlashSeleniumTest < Test::Unit::TestCase
-    
-    URL = "http://www.geocities.com/paulocaroli/flash/colors.html"
-    #URL = "http://localhost:1978/wiki/colors.html"
-    
-    def setup()
-        @selenium = Selenium::SeleniumDriver.new("localhost", 4444, "*firefox", URL);
-        @flashSelenium = FlashSelenium.new(@selenium, 'clickcolors')
-        @flashSelenium.start()
-        @flashSelenium.open(URL)
-    end
-    
-    def teardown()
-        @flashSelenium.stop()
-    end
-    
-    def testShouldCheckIfMovieIsPlaying()
-        assert_equal("true", @flashSelenium.is_playing())
-    end
-    
-    def testShouldReturnPercentLoaded()
-        assert_equal("100", @flashSelenium.percent_loaded())
-    end
-    
+  
+  URL = "http://www.geocities.com/paulocaroli/flash/colors.html"
+  #URL = "http://localhost:1978/wiki/colors.html"
+  
+  def setup()
+    @selenium = Selenium::SeleniumDriver.new("localhost", 4444, "*chrome", "http://localhost:4444");
+    @flashSelenium = FlashSelenium.new(@selenium, 'clickcolors')
+    @flashSelenium.start
+    @flashSelenium.open(URL)
+  end
+  
+  def teardown()
+    @flashSelenium.stop
+  end
+  
+  def testShouldCheckIfMovieIsPlaying()
+    assert_equal("false", @flashSelenium.is_playing)
+  end
+  
+  def testShouldReturnFlashMoviePercentLoaded()
+    assert_equal("100", @flashSelenium.percent_loaded)
+  end
+  
+  def testShouldGetVariableFromFlash()
+    @flashSelenium.set_variable("Foo", "Bar")
+    assert_equal("Bar", @flashSelenium.get_variable("Foo"))
+  end
+  
+  def testShouldReturnTotalFramesInFlashMovie()
+    assert_equal("1", @flashSelenium.total_frames)
+  end
+  
 end
