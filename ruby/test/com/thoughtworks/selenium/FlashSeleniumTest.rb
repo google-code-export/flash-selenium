@@ -25,7 +25,6 @@ require 'ruby/src/com/thoughtworks/selenium/FlashSelenium.rb'
 
 class FlashSeleniumTest < Test::Unit::TestCase
   
-  #URL = "http://www.geocities.com/paulocaroli/flash/colors.html"
   #URL = "http://localhost:1978/wiki/colors.html"
   URL = "http://localhost:1978/wiki/test.html"
   
@@ -55,7 +54,6 @@ class FlashSeleniumTest < Test::Unit::TestCase
     rescue
       flunk("Should Not have thrown exception")
     end
-    
     assert_equal("Bar", @flashSelenium.get_variable("Foo"))
   end
   
