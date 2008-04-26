@@ -25,14 +25,16 @@ require 'ruby/src/com/thoughtworks/selenium/FlashSelenium.rb'
 
 class FlashSeleniumTest < Test::Unit::TestCase
   
-  URL = "http://www.geocities.com/paulocaroli/flash/colors.html"
+  #URL = "http://www.geocities.com/paulocaroli/flash/colors.html"
   #URL = "http://localhost:1978/wiki/colors.html"
+  URL = "http://localhost:1978/wiki/test.html"
   
   def setup()
     @selenium = Selenium::SeleniumDriver.new("localhost", 4444, "*chrome", "http://localhost:4444");
-    @flashSelenium = FlashSelenium.new(@selenium, 'clickcolors')
+    @flashSelenium = FlashSelenium.new(@selenium, 'ebrochure')
     @flashSelenium.start
     @flashSelenium.open(URL)
+    @selenium.wait_for_page_to_load(2000)
   end
   
   def teardown()
@@ -40,20 +42,37 @@ class FlashSeleniumTest < Test::Unit::TestCase
   end
   
   def testShouldCheckIfMovieIsPlaying()
-    assert_equal("false", @flashSelenium.is_playing)
+    assert_equal("true", @flashSelenium.is_playing)
   end
   
   def testShouldReturnFlashMoviePercentLoaded()
     assert_equal("100", @flashSelenium.percent_loaded)
   end
   
-  def testShouldGetVariableFromFlash()
-    @flashSelenium.set_variable("Foo", "Bar")
+  def testShouldSetVariableIntoFlash()
+    begin
+      @flashSelenium.set_variable("Foo", "Bar")
+    rescue
+      flunk("Should Not have thrown exception")
+    end
+    
     assert_equal("Bar", @flashSelenium.get_variable("Foo"))
   end
   
   def testShouldReturnTotalFramesInFlashMovie()
-    assert_equal("1", @flashSelenium.total_frames)
+    assert_equal("330", @flashSelenium.total_frames)
+  end
+  
+  def testShouldGotoFrameSpecified()
+    @flashSelenium.goto_frame(@flashSelenium.total_frames)
+    assert_equal("329", @flashSelenium.t_current_frame("/"))
+  end
+  
+  def testShouldRewindMovie()
+    @flashSelenium.goto_frame(@flashSelenium.total_frames)
+    assert_equal("329", @flashSelenium.t_current_frame("/"))
+    @flashSelenium.rewind
+    assert_equal("0", @flashSelenium.t_current_frame("/"))
   end
   
 end

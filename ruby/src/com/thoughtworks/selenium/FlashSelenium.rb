@@ -42,6 +42,10 @@ class FlashSelenium
     return @selenium.get_eval(jsForFunction(functionName, *parameters))
   end
   
+  def wait_for_page_to_load(timeout)
+    @selenium.wait_for_page_to_load(timeout)
+  end
+  
   #### Standard Methods ####
   
   def percent_loaded()
