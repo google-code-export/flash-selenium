@@ -73,4 +73,12 @@ class FlashSeleniumTest < Test::Unit::TestCase
     assert_equal("0", @flashSelenium.t_current_frame("/"))
   end
   
+  def testShouldPlayMovie()
+    @flashSelenium.stop_play
+    @flashSelenium.rewind
+    assert_equal("0", @flashSelenium.t_current_frame("/"))
+    @flashSelenium.play
+    assert_not_equal("0", @flashSelenium.t_current_frame("/"))
+  end
+  
 end
