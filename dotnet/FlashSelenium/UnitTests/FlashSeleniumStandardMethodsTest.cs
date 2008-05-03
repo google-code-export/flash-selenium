@@ -29,9 +29,6 @@ namespace Selenium.UnitTests
     public class FlashSeleniumStandardMethodsTest
     {
         private FlashSelenium flashSelenium;
-//        private readonly string URL = "http://localhost:1978/wiki/test.html";
-//        private string flashObjectId = "ebrochure";
-        private readonly string URL = "http://localhost:1978/wiki/colors.html";
         private string flashObjectId = "clickcolors";
         private DynamicMock mockProcessor;
 
@@ -97,5 +94,72 @@ namespace Selenium.UnitTests
                 Assert.Fail("Should Not Fail\n" + e.Message);
             }
         }
+
+        [Test]
+        public void shouldGotoSpecifiedFrame()
+        {
+            addJSPrefixCallToMock();
+            mockProcessor.Expect("GetEval", new object[] { "document['" + flashObjectId + "'].GotoFrame('42');" });
+            flashSelenium.GotoFrame(42);
+        }
+
+        [Test]
+        public void shouldLoadMovie()
+        {
+            addJSPrefixCallToMock();
+            mockProcessor.Expect("GetEval", new object[] { "document['" + flashObjectId + "'].LoadMovie('42','/');" });
+            flashSelenium.LoadMovie(42, "/");
+        }
+
+        [Test]
+        public void shouldPan()
+        {
+            addJSPrefixCallToMock();
+            mockProcessor.Expect("GetEval", new object[] { "document['" + flashObjectId + "'].Pan('42','24','0');" });
+            flashSelenium.Pan(42, 24, 0);
+        }
+
+        [Test]
+        public void shouldPlay()
+        {
+            addJSPrefixCallToMock();
+            mockProcessor.Expect("GetEval", new object[] { "document['" + flashObjectId + "'].Play();" });
+            flashSelenium.Play();
+        }
+
+        [Test]
+        public void shouldRewind()
+        {
+            addJSPrefixCallToMock();
+            mockProcessor.Expect("GetEval", new object[] { "document['" + flashObjectId + "'].Rewind();" });
+            flashSelenium.Rewind();
+        }
+        
+        [Test]
+        public void shouldStopPlay()
+        {
+            addJSPrefixCallToMock();
+            mockProcessor.Expect("GetEval", new object[] { "document['" + flashObjectId + "'].StopPlay();" });
+            flashSelenium.StopPlay();
+        }
+
+        [Test]
+        public void shouldReturnTotalFrames()
+        {
+            addJSPrefixCallToMock();
+            mockProcessor.ExpectAndReturn("GetEval", "42", new object[] { "document['" + flashObjectId + "'].TotalFrames();" });
+            flashSelenium.TotalFrames();
+        }
+
+        [Test]
+        public void shouldZoomByPercent()
+        {
+            addJSPrefixCallToMock();
+            mockProcessor.ExpectAndReturn("GetEval", "42", new object[] { "document['" + flashObjectId + "'].Zoom('50');" });
+            flashSelenium.Zoom(50);
+        }
+
+
+
     }
 }

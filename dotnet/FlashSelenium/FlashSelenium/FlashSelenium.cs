@@ -122,5 +122,45 @@ namespace Selenium
         {
             Call("SetVariable", key, value);
         }
+
+        public void GotoFrame(int frameNumber)
+        {
+            Call("GotoFrame", frameNumber.ToString());
+        }
+
+        public void LoadMovie(int layerNumber, string url)
+        {
+            Call("LoadMovie", layerNumber.ToString(), url);
+        }
+
+        public void Pan(int x, int y, int mode)
+        {
+            Call("Pan", x.ToString(), y.ToString(), mode.ToString());
+        }
+
+        public void Play()
+        {
+            Call("Play");
+        }
+
+        public void Rewind()
+        {
+            Call("Rewind");
+        }
+
+        public void StopPlay()
+        {
+            Call("StopPlay");
+        }
+
+        public void TotalFrames()
+        {
+            Call("TotalFrames");
+        }
+
+        public void Zoom(int percent)
+        {
+            Call("Zoom", percent.ToString());
+        }
     }
 }
