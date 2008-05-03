@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FlashSeleniumStandardMethodsTest.cs" />
+    <Compile Include="FlashSeleniumTellTargetMethodsTest.cs" />
     <Compile Include="FlashSeleniumTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

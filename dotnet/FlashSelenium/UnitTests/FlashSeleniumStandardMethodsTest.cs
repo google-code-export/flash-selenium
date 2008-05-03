@@ -29,7 +29,7 @@ namespace Selenium.UnitTests
     public class FlashSeleniumStandardMethodsTest
     {
         private FlashSelenium flashSelenium;
-        private string flashObjectId = "clickcolors";
+        private readonly string flashObjectId = "clickcolors";
         private DynamicMock mockProcessor;
 
         [SetUp]
@@ -148,18 +148,16 @@ namespace Selenium.UnitTests
         {
             addJSPrefixCallToMock();
             mockProcessor.ExpectAndReturn("GetEval", "42", new object[] { "document['" + flashObjectId + "'].TotalFrames();" });
-            flashSelenium.TotalFrames();
+            Assert.AreEqual(42, flashSelenium.TotalFrames());
         }
 
         [Test]
         public void shouldZoomByPercent()
         {
             addJSPrefixCallToMock();
-            mockProcessor.ExpectAndReturn("GetEval", "42", new object[] { "document['" + flashObjectId + "'].Zoom('50');" });
+            mockProcessor.Expect("GetEval", new object[] { "document['" + flashObjectId + "'].Zoom('50');" });
             flashSelenium.Zoom(50);
         }
-
-
 
     }
 }

@@ -18,6 +18,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+using System;
 using Selenium;
 
 namespace Selenium
@@ -153,14 +154,87 @@ namespace Selenium
             Call("StopPlay");
         }
 
-        public void TotalFrames()
+        public int TotalFrames()
         {
-            Call("TotalFrames");
+            return Convert.ToInt32(Call("TotalFrames"));
         }
 
         public void Zoom(int percent)
         {
             Call("Zoom", percent.ToString());
+        }
+
+        //Tell Target Methods
+        public int TCurrentFrame(string target)
+        {
+            return Convert.ToInt32(Call("TCurrentFrame", target));            
+        }
+
+        public void TCallFrame(string target, int frameNumber)
+        {
+            Call("TCallFrame", target, frameNumber.ToString());
+        }
+
+        public void TCallLabel(string target, string label)
+        {
+            Call("TCallLabel", target, label);
+        }
+
+        public string TCurrentLabel(string target)
+        {
+            return Call("TCurrentLabel", target);
+        }
+
+        public string TGetProperty(string target, int property)
+        {
+            return Call("TGetProperty", target, property.ToString());
+        }
+
+        public int TGetPropertyAsNumber(string target, int property)
+        {
+            return Convert.ToInt32(Call("TGetPropertyAsNumber", target, property.ToString()));
+        }
+
+        public void TGotoFrame(string target, int frameNumber)
+        {
+            Call("TGotoFrame", target, frameNumber.ToString());
+        }
+
+        public void TGotoLabel(string target, string label)
+        {
+            Call("TGotoLabel", target, label);
+        }
+
+        public void TPlay(string target)
+        {
+            Call("TPlay", target);
+        }
+
+        public void TSetProperty(string target, string property, string value)
+        {
+            Call("TSetProperty", target, property, value);
+        }
+
+        public void TStopPlay(string target)
+        {
+            Call("TStopPlay", target);
+        }
+
+        //Standard Events
+
+        public void OnProgress(int percent)
+        {
+            Call("OnProgress", percent.ToString());
+        }
+
+        public void OnReadyStateChange(int state)
+        {
+            Call("OnReadyStateChange", state.ToString());
+        }
+
+        public void FSCommand(string command, string args)
+        {
+            Call("FSCommand", command, args);
         }
     }
 }
