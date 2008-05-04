@@ -27,6 +27,79 @@ namespace Selenium.UnitTests
     [TestFixture]
     public class FlashSeleniumTest
     {
+
+        [Test]
+        public void shouldInvokeStart()
+        {
+            DynamicMock mockProcessor = new DynamicMock(typeof (ISelenium));
+            mockProcessor.Expect("Start");
+            ISelenium selenium = (ISelenium) mockProcessor.MockInstance;
+            FlashSelenium flashSelenium = new FlashSelenium(selenium, "test");
+            try
+            {
+                flashSelenium.Start();
+            }
+            catch
+            {
+                Assert.Fail("Should Not Fail");
+            }
+            mockProcessor.Verify();
+        }
+        
+        [Test]
+        public void shouldInvokeStop()
+        {
+            DynamicMock mockProcessor = new DynamicMock(typeof (ISelenium));
+            mockProcessor.Expect("Stop");
+            ISelenium selenium = (ISelenium) mockProcessor.MockInstance;
+            FlashSelenium flashSelenium = new FlashSelenium(selenium, "test");
+            try
+            {
+                flashSelenium.Stop();
+            }
+            catch
+            {
+                Assert.Fail("Should Not Fail");
+            }
+            mockProcessor.Verify();
+        }
+
+        [Test]
+        public void shouldOpenUrl()
+        {
+            DynamicMock mockProcessor = new DynamicMock(typeof(ISelenium));
+            mockProcessor.Expect("Open", new object[] {"http://blah.com"});
+            ISelenium selenium = (ISelenium)mockProcessor.MockInstance;
+            FlashSelenium flashSelenium = new FlashSelenium(selenium, "test");
+            try
+            {
+                flashSelenium.Open("http://blah.com");
+            }
+            catch
+            {
+                Assert.Fail("Should Not Fail");
+            }
+            mockProcessor.Verify();
+        }
+        
+        [Test]
+        public void shouldWaitForPageLoad()
+        {
+            DynamicMock mockProcessor = new DynamicMock(typeof(ISelenium));
+            ISelenium selenium = (ISelenium) mockProcessor.MockInstance;
+            FlashSelenium flashSelenium = new FlashSelenium(selenium, "test");
+            mockProcessor.Expect("WaitForPageToLoad", new string[] { "5000" });
+            try
+            {
+                flashSelenium.WaitForPageToLoad("5000");
+            }
+            catch
+            {
+                Assert.Fail("Should Not Fail");
+            }
+            mockProcessor.Verify();
+        }
+
         [Test]
         public void shouldReturnJSPrefixForFirefox()
         {
