@@ -62,6 +62,7 @@ namespace Selenium.UnitTests
                 new FlashSeleniumExtensionForTest(selenium, "test");
             string actual = flashSeleniumExtensionForTest.jsForFunction("functionName", "Param1", "Param2");
             Assert.AreEqual("document['test'].functionName('Param1','Param2');", actual);
+            mockProcessor.Verify();
         }
 
         [Test]
@@ -75,6 +76,7 @@ namespace Selenium.UnitTests
                 new FlashSeleniumExtensionForTest(selenium1, "test");
             string actual = flashSeleniumExtensionForTest.jsForFunction("functionName", "Param1");
             Assert.AreEqual("document['test'].functionName('Param1');", actual);
+            mockProcessor.Verify();
         }
 
         [Test]
@@ -88,6 +90,21 @@ namespace Selenium.UnitTests
                 new FlashSeleniumExtensionForTest(selenium1, "test");
             string actual = flashSeleniumExtensionForTest.jsForFunction("functionName");
             Assert.AreEqual("document['test'].functionName();", actual);
+            mockProcessor.Verify();
+        }
+        
+        [Test]
+        public void shouldConstructProperJSFunctionCallWithMultipleParamsCastedToString()
+        {
+            DynamicMock mockProcessor = new DynamicMock(typeof (ISelenium));
+            mockProcessor.ExpectAndReturn("GetEval", "-1",
+                                          new object[] {"navigator.appName.indexOf(\"Microsoft Internet\")"});
+            ISelenium selenium1 = (ISelenium) mockProcessor.MockInstance;
+            FlashSeleniumExtensionForTest flashSeleniumExtensionForTest =
+                new FlashSeleniumExtensionForTest(selenium1, "test");
+            string actual = flashSeleniumExtensionForTest.jsForFunction("functionName",42.ToString(), 'S'.ToString(), (42.42).ToString());
+            Assert.AreEqual("document['test'].functionName('42','S','42.42');", actual);
+            mockProcessor.Verify();
         }
     }
 
