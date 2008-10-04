@@ -19,7 +19,6 @@
 // limitations under the License.
 //
 using System;
-using Selenium;
 
 namespace Selenium
 {
