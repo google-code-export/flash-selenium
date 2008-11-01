@@ -1,0 +1,9 @@
+<project name="flashselenium" default="build" >
+
+  <property name="msbuild" value="C:\Windows\Microsoft.NET\Framework\v3.5\MSBuild.exe"/>
+  
+  <target name="build">
+    <exec program="${msbuild}" commandline="FlashSelenium.sln" />
+  </target>
+  
+</project>
