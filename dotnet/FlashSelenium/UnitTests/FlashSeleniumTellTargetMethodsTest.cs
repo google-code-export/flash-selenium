@@ -21,14 +21,15 @@
 
 using NMock;
 using NUnit.Framework;
+using Selenium;
 
-namespace Selenium.UnitTests
+namespace UnitTests
 {
     [TestFixture]
     public class FlashSeleniumTellTargetMethodsTest
     {
         private DynamicMock mockProcessor;
-        private FlashSelenium flashSelenium;
+        private FlashSelenium.FlashSelenium flashSelenium;
         private readonly string flashObjectId = "test";
 
         [SetUp]
@@ -36,7 +37,7 @@ namespace Selenium.UnitTests
         {
             mockProcessor = new DynamicMock(typeof(ISelenium));
             ISelenium selenium = (ISelenium) mockProcessor.MockInstance;
-            flashSelenium = new FlashSelenium(selenium, flashObjectId);
+            flashSelenium = new FlashSelenium.FlashSelenium(selenium, flashObjectId);
         }
 
         [TearDown]
@@ -48,7 +49,7 @@ namespace Selenium.UnitTests
         private void addJSPrefixCallToMock()
         {
             mockProcessor.ExpectAndReturn("GetEval", "-1",
-                                          new object[] { "navigator.appName.indexOf(\"Microsoft Internet\")" });
+                                          new object[] { "navigator.userAgent" });
         }
 
         [Test]

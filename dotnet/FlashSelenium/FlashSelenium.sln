@@ -2,8 +2,31 @@
 Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlashSelenium", "FlashSelenium\FlashSelenium.csproj", "{90CF268E-BC37-4B9B-80B6-60A96D5374BF}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{860635E3-25D4-425B-BB63-970AD0FDA345}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{DCC98AD3-65DA-4971-99BD-13DECFF718AC}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		FlashSelenium.build = FlashSelenium.build
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "IntegrationTests\IntegrationTests.csproj", "{122A54D5-F3CD-44D3-8A5D-0546E6F6FE29}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +42,10 @@ Global
 		{860635E3-25D4-425B-BB63-970AD0FDA345}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{860635E3-25D4-425B-BB63-970AD0FDA345}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{860635E3-25D4-425B-BB63-970AD0FDA345}.Release|Any CPU.Build.0 = Release|Any CPU
+		{122A54D5-F3CD-44D3-8A5D-0546E6F6FE29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{122A54D5-F3CD-44D3-8A5D-0546E6F6FE29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{122A54D5-F3CD-44D3-8A5D-0546E6F6FE29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{122A54D5-F3CD-44D3-8A5D-0546E6F6FE29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{90CF268E-BC37-4B9B-80B6-60A96D5374BF}</ProjectGuid>
+    <ProjectGuid>{122A54D5-F3CD-44D3-8A5D-0546E6F6FE29}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FlashSelenium</RootNamespace>
-    <AssemblyName>FlashSelenium</AssemblyName>
+    <RootNamespace>IntegrationTests</RootNamespace>
+    <AssemblyName>IntegrationTests</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,18 +28,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.2.0.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="ThoughtWorks.Selenium.Core, Version=0.0.0.0, Culture=neutral">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\FunctionalTest\Selenium\selenium-remote-control-0.9.2\selenium-dotnet-client-driver-0.9.2\ThoughtWorks.Selenium.Core.dll</HintPath>
+      <HintPath>..\lib\ThoughtWorks.Selenium.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrowserConstants.cs" />
-    <Compile Include="FlashSelenium.cs" />
+    <Compile Include="FlashSeleniumIntegrationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FlashSelenium\FlashSelenium.csproj">
+      <Project>{90CF268E-BC37-4B9B-80B6-60A96D5374BF}</Project>
+      <Name>FlashSelenium</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

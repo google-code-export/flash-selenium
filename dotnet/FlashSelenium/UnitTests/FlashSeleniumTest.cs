@@ -21,20 +21,38 @@
 
 using NMock;
 using NUnit.Framework;
+using Selenium;
 
-namespace Selenium.UnitTests
+namespace UnitTests
 {
     [TestFixture]
     public class FlashSeleniumTest
     {
+        private DynamicMock mockProcessor;
+        private const string Firefox3UserAgentInfo = "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.1b1) Gecko/20081007 Firefox/3.1b1";
+        private const string Firefox2UserAgentInfo = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13";
+        private const string IEUserAgentInfo = "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; .NET CLR 2.0.50727)";
+
+
+        [SetUp]
+        public void SetUp()
+        {
+            mockProcessor = new DynamicMock(typeof(ISelenium));
+        }
+
+
+        [TearDown]
+        private void TearDown()
+        {
+            mockProcessor.Verify();
+        }
 
         [Test]
         public void shouldInvokeStart()
         {
-            DynamicMock mockProcessor = new DynamicMock(typeof (ISelenium));
             mockProcessor.Expect("Start");
             ISelenium selenium = (ISelenium) mockProcessor.MockInstance;
-            FlashSelenium flashSelenium = new FlashSelenium(selenium, "test");
+            FlashSelenium.FlashSelenium flashSelenium = new FlashSelenium.FlashSelenium(selenium, "test");
             try
             {
                 flashSelenium.Start();
@@ -43,16 +61,14 @@ namespace Selenium.UnitTests
             {
                 Assert.Fail("Should Not Fail");
             }
-            mockProcessor.Verify();
         }
         
         [Test]
         public void shouldInvokeStop()
         {
-            DynamicMock mockProcessor = new DynamicMock(typeof (ISelenium));
             mockProcessor.Expect("Stop");
             ISelenium selenium = (ISelenium) mockProcessor.MockInstance;
-            FlashSelenium flashSelenium = new FlashSelenium(selenium, "test");
+            FlashSelenium.FlashSelenium flashSelenium = new FlashSelenium.FlashSelenium(selenium, "test");
             try
             {
                 flashSelenium.Stop();
@@ -61,16 +77,14 @@ namespace Selenium.UnitTests
             {
                 Assert.Fail("Should Not Fail");
             }
-            mockProcessor.Verify();
         }
 
         [Test]
         public void shouldOpenUrl()
         {
-            DynamicMock mockProcessor = new DynamicMock(typeof(ISelenium));
             mockProcessor.Expect("Open", new object[] {"http://blah.com"});
             ISelenium selenium = (ISelenium)mockProcessor.MockInstance;
-            FlashSelenium flashSelenium = new FlashSelenium(selenium, "test");
+            FlashSelenium.FlashSelenium flashSelenium = new FlashSelenium.FlashSelenium(selenium, "test");
             try
             {
                 flashSelenium.Open("http://blah.com");
@@ -79,15 +93,13 @@ namespace Selenium.UnitTests
             {
                 Assert.Fail("Should Not Fail");
             }
-            mockProcessor.Verify();
         }
         
         [Test]
         public void shouldWaitForPageLoad()
         {
-            DynamicMock mockProcessor = new DynamicMock(typeof(ISelenium));
             ISelenium selenium = (ISelenium) mockProcessor.MockInstance;
-            FlashSelenium flashSelenium = new FlashSelenium(selenium, "test");
+            FlashSelenium.FlashSelenium flashSelenium = new FlashSelenium.FlashSelenium(selenium, "test");
             mockProcessor.Expect("WaitForPageToLoad", new string[] { "5000" });
             try
             {
@@ -97,91 +109,79 @@ namespace Selenium.UnitTests
             {
                 Assert.Fail("Should Not Fail");
             }
-            mockProcessor.Verify();
         }
 
         [Test]
-        public void shouldReturnJSPrefixForFirefox()
+        public void shouldReturnJSPrefixForFirefox2()
         {
-            DynamicMock mockProcessor = new DynamicMock(typeof (ISelenium));
-            mockProcessor.ExpectAndReturn("GetEval", "-1",
-                                          new object[] {"navigator.appName.indexOf(\"Microsoft Internet\")"});
+            
+            mockProcessor.ExpectAndReturn("GetEval", Firefox2UserAgentInfo, new object[] { "navigator.userAgent" });
             ISelenium selenium = (ISelenium) mockProcessor.MockInstance;
             FlashSeleniumExtensionForTest flashSelenium = new FlashSeleniumExtensionForTest(selenium, "test");
             Assert.AreEqual("document['test'].", flashSelenium.checkBrowserAndReturnJSPrefix());
-            mockProcessor.Verify();
         }
 
         [Test]
         public void shouldReturnJSPrefixForIE()
         {
-            DynamicMock mockProcessor = new DynamicMock(typeof (ISelenium));
-            mockProcessor.ExpectAndReturn("GetEval", "0",
-                                          new object[] {"navigator.appName.indexOf(\"Microsoft Internet\")"});
+            mockProcessor.ExpectAndReturn("GetEval", IEUserAgentInfo, new object[] { "navigator.userAgent" });
             ISelenium selenium = (ISelenium) mockProcessor.MockInstance;
             FlashSeleniumExtensionForTest flashSelenium = new FlashSeleniumExtensionForTest(selenium, "test");
             Assert.AreEqual("window.document['test'].", flashSelenium.checkBrowserAndReturnJSPrefix());
-            mockProcessor.Verify();
         }
 
         [Test]
-        public void shouldConstructProperJSFunctionCallWithParams()
+        public void shouldConstructProperJSFunctionCallWithParamsForFirefox2()
         {
-            DynamicMock mockProcessor = new DynamicMock(typeof (ISelenium));
-            mockProcessor.ExpectAndReturn("GetEval", "-1",
-                                          new object[] {"navigator.appName.indexOf(\"Microsoft Internet\")"});
+            mockProcessor.ExpectAndReturn("GetEval", Firefox2UserAgentInfo, new object[] { "navigator.userAgent" });
             ISelenium selenium = (ISelenium) mockProcessor.MockInstance;
-            FlashSeleniumExtensionForTest flashSeleniumExtensionForTest =
-                new FlashSeleniumExtensionForTest(selenium, "test");
+            FlashSeleniumExtensionForTest flashSeleniumExtensionForTest = new FlashSeleniumExtensionForTest(selenium, "test");
             string actual = flashSeleniumExtensionForTest.jsForFunction("functionName", "Param1", "Param2");
             Assert.AreEqual("document['test'].functionName('Param1','Param2');", actual);
-            mockProcessor.Verify();
         }
 
         [Test]
-        public void shouldConstructProperJSFunctionCallWithSingleParam()
+        public void shouldConstructProperJSFunctionCallWithSingleParamForFirefox2()
         {
-            DynamicMock mockProcessor = new DynamicMock(typeof (ISelenium));
-            mockProcessor.ExpectAndReturn("GetEval", "-1",
-                                          new object[] {"navigator.appName.indexOf(\"Microsoft Internet\")"});
+            mockProcessor.ExpectAndReturn("GetEval", Firefox2UserAgentInfo, new object[] { "navigator.userAgent" });
             ISelenium selenium1 = (ISelenium) mockProcessor.MockInstance;
-            FlashSeleniumExtensionForTest flashSeleniumExtensionForTest =
-                new FlashSeleniumExtensionForTest(selenium1, "test");
+            FlashSeleniumExtensionForTest flashSeleniumExtensionForTest = new FlashSeleniumExtensionForTest(selenium1, "test");
             string actual = flashSeleniumExtensionForTest.jsForFunction("functionName", "Param1");
             Assert.AreEqual("document['test'].functionName('Param1');", actual);
-            mockProcessor.Verify();
         }
 
         [Test]
-        public void shouldConstructProperJSFunctionCallWithNoParam()
+        public void shouldConstructProperJSFunctionCallWithNoParamForFirefox2()
         {
-            DynamicMock mockProcessor = new DynamicMock(typeof (ISelenium));
-            mockProcessor.ExpectAndReturn("GetEval", "-1",
-                                          new object[] {"navigator.appName.indexOf(\"Microsoft Internet\")"});
+            mockProcessor.ExpectAndReturn("GetEval", Firefox2UserAgentInfo, new object[] { "navigator.userAgent" });
             ISelenium selenium1 = (ISelenium) mockProcessor.MockInstance;
-            FlashSeleniumExtensionForTest flashSeleniumExtensionForTest =
-                new FlashSeleniumExtensionForTest(selenium1, "test");
+            FlashSeleniumExtensionForTest flashSeleniumExtensionForTest = new FlashSeleniumExtensionForTest(selenium1, "test");
             string actual = flashSeleniumExtensionForTest.jsForFunction("functionName");
             Assert.AreEqual("document['test'].functionName();", actual);
-            mockProcessor.Verify();
         }
         
         [Test]
-        public void shouldConstructProperJSFunctionCallWithMultipleParamsCastedToString()
+        public void shouldConstructProperJSFunctionCallWithMultipleParamsCastedToStringForFirefox2()
         {
-            DynamicMock mockProcessor = new DynamicMock(typeof (ISelenium));
-            mockProcessor.ExpectAndReturn("GetEval", "-1",
-                                          new object[] {"navigator.appName.indexOf(\"Microsoft Internet\")"});
+            mockProcessor.ExpectAndReturn("GetEval", Firefox2UserAgentInfo, new object[] { "navigator.userAgent" });
             ISelenium selenium1 = (ISelenium) mockProcessor.MockInstance;
-            FlashSeleniumExtensionForTest flashSeleniumExtensionForTest =
-                new FlashSeleniumExtensionForTest(selenium1, "test");
+            FlashSeleniumExtensionForTest flashSeleniumExtensionForTest = new FlashSeleniumExtensionForTest(selenium1, "test");
             string actual = flashSeleniumExtensionForTest.jsForFunction("functionName",42.ToString(), 'S'.ToString(), (42.42).ToString());
             Assert.AreEqual("document['test'].functionName('42','S','42.42');", actual);
-            mockProcessor.Verify();
         }
+
+        [Test]
+        public void shouldReturnJSPrefixForFirefox3()
+        {
+            mockProcessor.ExpectAndReturn("GetEval", Firefox3UserAgentInfo, new object[] { "navigator.userAgent" });
+            ISelenium selenium = (ISelenium)mockProcessor.MockInstance;
+            FlashSeleniumExtensionForTest flashSelenium = new FlashSeleniumExtensionForTest(selenium, "test");
+            Assert.AreEqual("window.document['test'].", flashSelenium.checkBrowserAndReturnJSPrefix());
+        }
+
     }
 
-    internal class FlashSeleniumExtensionForTest : FlashSelenium
+    internal class FlashSeleniumExtensionForTest : FlashSelenium.FlashSelenium
     {
         public FlashSeleniumExtensionForTest(ISelenium selenium, string flashObjectId) : base(selenium, flashObjectId)
         {

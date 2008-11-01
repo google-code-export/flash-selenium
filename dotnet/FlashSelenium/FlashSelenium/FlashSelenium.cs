@@ -19,13 +19,14 @@
 // limitations under the License.
 //
 using System;
+using Selenium;
 
-namespace Selenium
+namespace FlashSelenium
 {
     public class FlashSelenium
     {
-        private readonly ISelenium selenium;
         private readonly string flashObjectId;
+        private readonly ISelenium selenium;
 
         public FlashSelenium(ISelenium selenium, string flashObjectId)
         {
@@ -50,7 +51,7 @@ namespace Selenium
 
         public string Call(string functionName, params string[] parameters)
         {
-           return selenium.GetEval(jsForFunction(functionName, parameters));
+            return selenium.GetEval(jsForFunction(functionName, parameters));
         }
 
         public void WaitForPageToLoad(string timeout)
@@ -68,28 +69,22 @@ namespace Selenium
             {
                 return browserPrefix + functionName + "();";
             }
-            else
+            foreach (string str in parameters)
             {
-                foreach (string str in parameters)
-                {
-                    functionArgs = functionArgs + "'" + str + "',";
-                }
-                functionArgs = functionArgs.Substring(0, functionArgs.Length - 1);
-                return browserPrefix + functionName + "(" + functionArgs + ");";
+                functionArgs = functionArgs + "'" + str + "',";
             }
+            functionArgs = functionArgs.Substring(0, functionArgs.Length - 1);
+            return browserPrefix + functionName + "(" + functionArgs + ");";
         }
 
         protected string checkBrowserAndReturnJSPrefix()
         {
-            string indexOfMicrosoft = selenium.GetEval("navigator.appName.indexOf(\"Microsoft Internet\")");
-            if (!indexOfMicrosoft.Equals("-1"))
+            string appName = selenium.GetEval("navigator.userAgent");
+            if (appName.Contains(BrowserConstants.FIREFOX3) || appName.Contains(BrowserConstants.IE))
             {
                 return createJSPrefix_window_document();
             }
-            else
-            {
-                return createJSPrefix_document();
-            }
+            return createJSPrefix_document();
         }
 
         private string createJSPrefix_document()
@@ -166,7 +161,7 @@ namespace Selenium
         //Tell Target Methods
         public int TCurrentFrame(string target)
         {
-            return Convert.ToInt32(Call("TCurrentFrame", target));            
+            return Convert.ToInt32(Call("TCurrentFrame", target));
         }
 
         public void TCallFrame(string target, int frameNumber)
