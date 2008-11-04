@@ -16,10 +16,11 @@ public class FlashSelenium {
 	public FlashSelenium(Selenium selenium, String flashObjectId) {
 		this.selenium = selenium;
 		// verify the browser type
-		String indexOfMicrosoft = selenium.getEval("navigator.appName.indexOf('Microsoft')");
-		if (indexOfMicrosoft != "-1"){
+		String appName = selenium.getEval("navigator.userAgent");
+		if (appName.contains(BrowserConstants.FIREFOX3) || appName.contains(BrowserConstants.IE)) {
 			flashJSStringPrefix = createJSPrefix_window_document(flashObjectId);		
-		}else{
+		}
+		else {
 			flashJSStringPrefix = createJSPrefix_document(flashObjectId);	
 		}
 	}

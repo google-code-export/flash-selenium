@@ -31,7 +31,7 @@ public class TestBrowserPrefix extends TestCase {
 	}
 
 	public void testFlashSeleniumForIE() {
-		expect(selenium.getEval("navigator.appName.indexOf('Microsoft')")).andReturn("-1");
+		expect(selenium.getEval("navigator.userAgent")).andReturn("Firefox/2.0.0.42");
 		String expectedFunctionCall = FlashSelenium.createJSPrefix_document(FLASH_OBJ_ID) + FUNCTION + "();"; 
 		expect(selenium.getEval(expectedFunctionCall)).andReturn(RETURN_VALUE);
 		replay(selenium);
@@ -41,7 +41,7 @@ public class TestBrowserPrefix extends TestCase {
 	}	
 	
 	public void testFlashSeleniumForNonIE() {
-		expect(selenium.getEval("navigator.appName.indexOf('Microsoft')")).andReturn("0");
+		expect(selenium.getEval("navigator.userAgent")).andReturn("Firefox/3.0.0.1");
 		String expectedFunctionCall = FlashSelenium.createJSPrefix_window_document(FLASH_OBJ_ID) + FUNCTION + "();"; 
 		expect(selenium.getEval(expectedFunctionCall)).andReturn(RETURN_VALUE);
 		replay(selenium);
