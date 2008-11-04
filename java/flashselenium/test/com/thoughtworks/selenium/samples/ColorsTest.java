@@ -3,8 +3,6 @@ package com.thoughtworks.selenium.samples;
 import com.thoughtworks.selenium.DefaultSelenium;
 import com.thoughtworks.selenium.FlashSelenium;
 import com.thoughtworks.selenium.Selenium;
-import com.thoughtworks.selenium.SeleniumException;
-
 import junit.framework.TestCase;
 
 
