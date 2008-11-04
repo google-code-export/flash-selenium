@@ -11,7 +11,7 @@ namespace IntegrationTests
         [SetUp]
         public void SetUp()
         {
-            ISelenium selenium = new DefaultSelenium("localhost", 4444, "*iexplore", URL);
+            ISelenium selenium = new DefaultSelenium("localhost", 4444, "*chrome", URL);
             flashSelenium = new FlashSelenium.FlashSelenium(selenium, flashObjectId);
         }
 
@@ -25,7 +25,7 @@ namespace IntegrationTests
 
         private FlashSelenium.FlashSelenium flashSelenium;
         private readonly string flashObjectId = "clickcolors";
-        private readonly string URL = "http://www.geocities.com/paulocaroli/flash/colors.html";
+        private readonly string URL = "http://localhost/colors.html";
 
 
         [Test]
@@ -34,6 +34,7 @@ namespace IntegrationTests
             flashSelenium.Start();
             flashSelenium.Open(URL);
             flashSelenium.Call("click");
+            Assert.AreEqual("BLUE", flashSelenium.Call("getColor"));
         }
     }
 }
