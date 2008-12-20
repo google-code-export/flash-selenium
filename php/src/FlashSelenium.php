@@ -22,6 +22,18 @@ class FlashSelenium
     {
         $this->selenium.stop();
     }
+    
+    public function open($url) {
+    	$this->selenium.open($url);
+    }
+    
+    public function waitForPageLoad($timeout) {
+		$this->selenium.waitForPageToLoad($timeout);
+	}
+	
+	public function call($function, $args = array()) {
+		@this->selenium.getEval(jsForFunction($function, $args));
+	}
 
 }
 ?>
