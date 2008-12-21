@@ -54,9 +54,9 @@ class FlashSelenium
 		$this->selenium.waitForPageToLoad($timeout);
 	}
 	
-	public function call($function, $args = array()) {
+	public function call($function) {
         $this->jsPrefix = checkBrowserAndReturnJSPrefix();
-		return $this->selenium.getEval(jsForFunction($function, $args));
+		return $this->selenium.getEval(jsForFunction($function, func_get_args()));
 	}
     
     
@@ -78,8 +78,8 @@ class FlashSelenium
     private function checkBrowserAndReturnJSPrefix ()
     {
     	$appName = $this->selenium.getEval("navigator.userAgent");
-    	if (true)
-//        if ( substr($appName, BrowserConstants->FIREFOX3) or substr($appName, BrowserConstants->IE))
+        $browserConstants = new BrowserConstants();
+        if (substr($appName, $browserConstants->Firefox3()) or substr($appName, $browserConstants->IE()))
         {
         	return createJSPrefix_window_document();
         }
