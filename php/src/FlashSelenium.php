@@ -21,7 +21,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-#require_once( 'Selenium.php' );
+require_once( 'Selenium.php' );
 require_once( 'BrowserConstants.php' );
 
 class FlashSelenium
@@ -38,25 +38,25 @@ class FlashSelenium
 
     public function start()
     {
-        $this->selenium.start();
+        $this->selenium->start();
     }
 
     public function stop()
     {
-        $this->selenium.stop();
+        $this->selenium->stop();
     }
     
     public function open($url) {
-    	$this->selenium.open($url);
+    	$this->selenium->open($url);
     }
     
     public function waitForPageLoad($timeout) {
-		$this->selenium.waitForPageToLoad($timeout);
+		$this->selenium->waitForPageToLoad($timeout);
 	}
 	
 	public function call($function) {
         $this->jsPrefix = checkBrowserAndReturnJSPrefix();
-		return $this->selenium.getEval(jsForFunction($function, func_get_args()));
+		return $this->selenium->getEval(jsForFunction($function, func_get_args()));
 	}
     
     
@@ -75,15 +75,15 @@ class FlashSelenium
         return $this->jsPrefix . $functionName . "(" . substr($functionArgs, 0, -1) . ");"; 
     }
     
-    private function checkBrowserAndReturnJSPrefix ()
+    public function checkBrowserAndReturnJSPrefix ()
     {
-    	$appName = $this->selenium.getEval("navigator.userAgent");
+        $appName = $this->selenium->getEval('navigator.userAgent');
         $browserConstants = new BrowserConstants();
-        if (substr($appName, $browserConstants->Firefox3()) or substr($appName, $browserConstants->IE()))
+        if (strripos($appName, $browserConstants->Firefox2()))
         {
-        	return createJSPrefix_window_document();
+            return $this->createJSPrefix_document();
         }
-        return createJSPrefix_document();
+        return $this->createJSPrefix_window_document();
     }
     
     protected function createJSPrefix_document ()
