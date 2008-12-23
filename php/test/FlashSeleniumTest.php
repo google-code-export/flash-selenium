@@ -9,33 +9,33 @@ class FlashSeleniumTest extends PHPUnit_Framework_TestCase
 	
 	public function testShouldReturnDocumentPrefix ()
 	{
-		$flashSelenium  = new FlashSeleniumStub(null, "UngaBunga"); 
-		$this->assertEquals("document['UngaBunga'].", $flashSelenium->createJSPrefix_document());
+		$flashSelenium  = new FlashSeleniumStub(null, "4242"); 
+		$this->assertEquals("document['4242'].", $flashSelenium->createJSPrefix_document());
 	}
 	
 	public function testShouldReturnWindowDocumentPrefix ()
 	{
-		$flashSelenium  = new FlashSeleniumStub(null, "UngaBunga");
-		$this->assertEquals("window.document['UngaBunga'].", $flashSelenium->createJSPrefix_window_document());
+		$flashSelenium  = new FlashSeleniumStub(null, "4242");
+		$this->assertEquals("window.document['4242'].", $flashSelenium->createJSPrefix_window_document());
 	}
 	
 	public function testShouldReturnJSForFunctionForSingleFunctionParameter ()
 	{
-		$flashSelenium  = new FlashSeleniumStub(null, "UngaBunga");
+		$flashSelenium  = new FlashSeleniumStub(null, "4242");
 		$retVal = $flashSelenium->jsForFunction("Function1", "42");
 		$this->assertEquals("Function1('42');", $retVal);
 	}
 	
 	public function testShouldReturnJSForFunctionForTwoFunctionParameters ()
 	{
-		$flashSelenium  = new FlashSeleniumStub(null, "UngaBunga");
+		$flashSelenium  = new FlashSeleniumStub(null, "4242");
 		$retVal = $flashSelenium->jsForFunction("Function1", "42", "24");
 		$this->assertEquals("Function1('42','24');", $retVal);
 	}
 	
 	public function testShouldReturnJSForFunctionWithNoParameter ()
 	{
-		$flashSelenium  = new FlashSeleniumStub(null, "UngaBunga");
+		$flashSelenium  = new FlashSeleniumStub(null, "4242");
 		$retVal = $flashSelenium->jsForFunction("Function1");
 		$this->assertEquals("Function1();", $retVal);
 	}
@@ -75,6 +75,8 @@ class FlashSeleniumTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(strripos('Mozilla/5.0 (Windows; U; Windows NT 6.0; en-GB; rv:1.8.1.19) Gecko/20081201 Firefox/3.0.0.1', 'UU') == false);
 		$this->assertTrue(strripos('Mozilla/5.0 (Windows; U; Windows NT 6.0; en-GB; rv:1.8.1.19) Gecko/20081201 Firefox/2.0.0.1', $browserConstants->Firefox2()) > 0);
 	}
+	
+
 }
 
 #doc
