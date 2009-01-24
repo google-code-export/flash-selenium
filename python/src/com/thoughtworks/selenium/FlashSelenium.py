@@ -20,12 +20,14 @@ limitations under the License.
 """
 
 from selenium import selenium
+from BrowserConstants import BrowserConstants
 
 class FlashSelenium(object):
     
     def __init__(self, seleniumObj, flashObjectId):
         self.seleniumObj = seleniumObj
         self.flashObjectId = flashObjectId
+        self.browserConstants = BrowserConstants();
         self.flashJSStringPrefix = self.createJSPrefix_document(self.flashObjectId)
         
     def start(self):
@@ -128,8 +130,8 @@ class FlashSelenium(object):
     #### Custom Code ####
     
     def checkBrowserAndReturnJSPrefix(self):
-        indexOfMicrosoft = self.seleniumObj.get_eval("navigator.appName.indexOf(\"Microsoft Internet\")");
-        if indexOfMicrosoft != -1:
+        appName = self.seleniumObj.get_eval("navigator.userAgent")
+        if (appName.find(self.browserConstants.firefox3()) is not -1) or (appName.find(self.browserConstants.msie()) is not -1):
             return self.createJSPrefix_window_document(self.flashObjectId)
         else:
             return self.createJSPrefix_document(self.flashObjectId)

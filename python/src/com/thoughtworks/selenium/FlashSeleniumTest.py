@@ -99,3 +99,11 @@ class FlashSeleniumTest(unittest.TestCase):
         while (self.flashSeleniumObj.percent_loaded() < 100):
             pass
         self.assertEquals('1', self.flashSeleniumObj.total_frames())
+    
+    def testShouldGetNavigatorName(self):
+    	self.flashSeleniumObj.open(self.URL)
+        retVal = self.flashSeleniumObj.checkBrowserAndReturnJSPrefix()
+        self.assertEquals("window.document['clickcolors'].", retVal);
+        
+if __name__ == '__main__':
+        unittest.main()
