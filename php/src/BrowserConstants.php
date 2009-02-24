@@ -12,6 +12,7 @@
 		private $FIREFOX3 = "Firefox/3.";
 		private $FIREFOX2 = "Firefox/2.";
 		private $IE = "MSIE";
+		private $SAFARI = "Safari";
 		
 		
 		public function Firefox3 ()
@@ -27,6 +28,11 @@
 		public function IE ()
 		{
 			return $this->IE;
+		}
+		
+		public function SAFARI ()
+		{
+			return $this->SAFARI;
 		}
 	}
 

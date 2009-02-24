@@ -25,8 +25,7 @@ from FlashSelenium import FlashSelenium
 
 class FlashSeleniumTest(unittest.TestCase):
     
-    URL = "http://www.geocities.com/paulocaroli/flash/colors.html"
-    #URL = "http://localhost:1978/wiki/colors.html"
+    URL = "http://localhost/colors.html"
     
     def setUp(self):
         self.seleniumObj = selenium("localhost", 4444, "*firefox", self.URL)

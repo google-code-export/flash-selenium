@@ -12,16 +12,23 @@ class FlashSeleniumIntegrationTest extends PHPUnit_Framework_TestCase
 	public function setUp ()
 	{
 		$this->selenium = new Testing_Selenium('*chrome', 'http://localhost');
-		$this->flashSelenium = new FlashSelenium($this->selenium, null);
+		$this->flashSelenium = new FlashSelenium($this->selenium, 'clickcolors');
 		$this->flashSelenium->start();
 	}	
-	public function testShouldPerformSeleniumOperations ()
+	
+	public function xtestShouldPerformSeleniumOperations ()
 	{
-		$this->flashSelenium->open('http://www.google.co.in');
+		$this->flashSelenium->open('http://localhost');
 		$retVal = $this->selenium->getTitle();
-		$this->assertEquals('Google', $retVal);
+		$this->assertEquals('IIS7', $retVal);
 	}
 	
+	public function testShouldReturnTrueIfFlashMovieIsPlaying ()
+	{
+		$this->flashSelenium->open('http://localhost/colors.html');
+		print $this->flashSelenium->isPlaying();
+	}
+
 	public function tearDown ()
 	{
 		$this->flashSelenium->stop();

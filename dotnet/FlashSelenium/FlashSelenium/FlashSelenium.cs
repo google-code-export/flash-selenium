@@ -80,7 +80,7 @@ namespace FlashSelenium
         protected string checkBrowserAndReturnJSPrefix()
         {
             string appName = selenium.GetEval("navigator.userAgent");
-            if (appName.Contains(BrowserConstants.FIREFOX3) || appName.Contains(BrowserConstants.IE))
+            if (appName.Contains(BrowserConstants.FIREFOX3) || appName.Contains(BrowserConstants.IE) || appName.Contains(BrowserConstants.SAFARI) || appName.Contains(BrowserConstants.OPERA))
             {
                 return createJSPrefix_window_document();
             }

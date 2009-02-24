@@ -9,7 +9,7 @@ class FlashSeleniumTest extends PHPUnit_Framework_TestCase
 	
 	public function testShouldReturnDocumentPrefix ()
 	{
-		$flashSelenium  = new FlashSeleniumStub(null, "4242"); 
+		$flashSelenium  = new FlashSeleniumStub(null, "4242");
 		$this->assertEquals("document['4242'].", $flashSelenium->createJSPrefix_document());
 	}
 	
@@ -24,7 +24,7 @@ class FlashSeleniumTest extends PHPUnit_Framework_TestCase
 		$flashSelenium  = new FlashSeleniumStub(null, "4242");
 		$retVal = $flashSelenium->jsForFunction("Function1", "42");
 		$this->assertEquals("Function1('42');", $retVal);
-	}
+	}   
 	
 	public function testShouldReturnJSForFunctionForTwoFunctionParameters ()
 	{
@@ -74,6 +74,15 @@ class FlashSeleniumTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(strripos('Mozilla/5.0 (Windows; U; Windows NT 6.0; en-GB; rv:1.8.1.19) Gecko/20081201 Firefox/3.0.0.1', 'Mozilla') == 0);
 		$this->assertTrue(strripos('Mozilla/5.0 (Windows; U; Windows NT 6.0; en-GB; rv:1.8.1.19) Gecko/20081201 Firefox/3.0.0.1', 'UU') == false);
 		$this->assertTrue(strripos('Mozilla/5.0 (Windows; U; Windows NT 6.0; en-GB; rv:1.8.1.19) Gecko/20081201 Firefox/2.0.0.1', $browserConstants->Firefox2()) > 0);
+	}
+	
+	public function testShouldCallIsPlayingMethod ()
+	{
+		$seleniumMock = $this->getMock('Testing_Selenium', array('getEval'), array('*chrome','http://localhost'), '', false);
+		$seleniumMock->expects($this->any())->method('getEval')->with($this->equalTo('navigator.userAgent'))->will($this->returnValue('Mozilla/5.0 (Windows; U; Windows NT 6.0; en-GB; rv:1.8.1.19) Gecko/20081201 Firefox/3.0.0.1'));
+		$seleniumMock->expects($this->any())->method('getEval')->with($this->equalTo('window.document.isPlaying();'))->will($this->returnValue('true'));
+		$flashSelenium = new FlashSelenium($seleniumMock, "blah");
+		$this->assertEquals('true', $flashSelenium->isPlaying());
 	}
 	
 

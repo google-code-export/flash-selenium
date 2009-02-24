@@ -48,6 +48,7 @@ class FlashSelenium
     
     public function open($url) {
     	$this->selenium->open($url);
+        $this->jsPrefix = $this->checkBrowserAndReturnJSPrefix();
     }
     
     public function waitForPageLoad($timeout) {
@@ -55,16 +56,28 @@ class FlashSelenium
 	}
 	
 	public function call($function) {
-        $this->jsPrefix = checkBrowserAndReturnJSPrefix();
-		return $this->selenium->getEval(jsForFunction($function, func_get_args()));
+        $params = func_get_args();
+        $function = $this->jsForFunction($function, $params);
+        print $function . ">>\n";
+		return $this->selenium->getEval($function);
 	}
     
+    #Flash Functions
+    public function isPlaying ()
+    {
+    	return $this->call('IsPlaying');
+    }
+    
+    public function percentLoaded() 
+    {
+        return $this->call('percentLoaded');
+    }
     
     # Internal Functions
-    public function jsForFunction ($functionName)
+    public function jsForFunction ($functionName, $params)
     {
         $functionArgs = "";
-        $params = func_get_args();
+        #$params = func_get_args();
         if ( count($params) > 1  )
         {
         	for ( $i=1; $i < count($params); ++$i )
@@ -72,14 +85,14 @@ class FlashSelenium
             	$functionArgs = $functionArgs . "'" . $params[$i] . "',";
             }
         }
-        return $this->jsPrefix . $functionName . "(" . substr($functionArgs, 0, -1) . ");"; 
+        return $this->jsPrefix . $functionName . '(' . substr($functionArgs, 0, -1) . ');'; 
     }
     
     public function checkBrowserAndReturnJSPrefix ()
     {
         $appName = $this->selenium->getEval('navigator.userAgent');
         $browserConstants = new BrowserConstants();
-        if (strripos($appName, $browserConstants->Firefox2()))
+        if (strripos($appName, $browserConstants->Firefox2()))// or strripos($appName, $browserConstants->SAFARI()))
         {
             return $this->createJSPrefix_document();
         }

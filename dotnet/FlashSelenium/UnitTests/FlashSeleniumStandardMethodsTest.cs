@@ -66,8 +66,7 @@ namespace UnitTests
         public void shouldCallIsPlaying()
         {
             addJSPrefixCallToMock();
-            mockProcessor.ExpectAndReturn("GetEval", "true",
-                                          new object[] {"document['" + flashObjectId + "'].IsPlaying();"});
+            mockProcessor.ExpectAndReturn("GetEval", "true", new object[] {"document['" + flashObjectId + "'].IsPlaying();"});
             Assert.AreEqual("true", flashSelenium.IsPlaying());
         }
 
