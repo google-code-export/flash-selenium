@@ -48,17 +48,16 @@ class FlashSelenium
     
     public function open($url) {
     	$this->selenium->open($url);
-        $this->jsPrefix = $this->checkBrowserAndReturnJSPrefix();
     }
     
     public function waitForPageLoad($timeout) {
 		$this->selenium->waitForPageToLoad($timeout);
 	}
 	
-	public function call($function) {
+	public function call() {
         $params = func_get_args();
-        $function = $this->jsForFunction($function, $params);
-        print $function . ">>\n";
+        $this->jsPrefix = $this->checkBrowserAndReturnJSPrefix();
+        $function = $this->jsForFunction($params[0], $params);
 		return $this->selenium->getEval($function);
 	}
     
@@ -70,7 +69,7 @@ class FlashSelenium
     
     public function percentLoaded() 
     {
-        return $this->call('percentLoaded');
+        return $this->call('PercentLoaded');
     }
     
     # Internal Functions
@@ -78,9 +77,9 @@ class FlashSelenium
     {
         $functionArgs = "";
         #$params = func_get_args();
-        if ( count($params) > 1  )
+        if ( count($params) > 1 and $params != NULL )
         {
-        	for ( $i=1; $i < count($params); ++$i )
+        	for ( $i=1; $i < count($params); $i++ )
             { 
             	$functionArgs = $functionArgs . "'" . $params[$i] . "',";
             }
@@ -92,11 +91,11 @@ class FlashSelenium
     {
         $appName = $this->selenium->getEval('navigator.userAgent');
         $browserConstants = new BrowserConstants();
-        if (strripos($appName, $browserConstants->Firefox2()))// or strripos($appName, $browserConstants->SAFARI()))
+        if (strripos($appName, $browserConstants->Firefox3()) or strripos($appName, $browserConstants->SAFARI()) or strripos($appName, $browserConstants->IE()) or strripos($appName, $browserConstants->OPERA()))
         {
-            return $this->createJSPrefix_document();
+            return $this->createJSPrefix_window_document();
         }
-        return $this->createJSPrefix_window_document();
+        return $this->createJSPrefix_document();
     }
     
     protected function createJSPrefix_document ()

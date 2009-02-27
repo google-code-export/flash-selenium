@@ -16,7 +16,7 @@ class FlashSeleniumIntegrationTest extends PHPUnit_Framework_TestCase
 		$this->flashSelenium->start();
 	}	
 	
-	public function xtestShouldPerformSeleniumOperations ()
+	public function testShouldPerformSeleniumOperations ()
 	{
 		$this->flashSelenium->open('http://localhost');
 		$retVal = $this->selenium->getTitle();
@@ -26,7 +26,13 @@ class FlashSeleniumIntegrationTest extends PHPUnit_Framework_TestCase
 	public function testShouldReturnTrueIfFlashMovieIsPlaying ()
 	{
 		$this->flashSelenium->open('http://localhost/colors.html');
-		print $this->flashSelenium->isPlaying();
+		$this->assertEquals(true, $this->flashSelenium->isPlaying());
+	}
+	
+	public function testShouldReturnPercentLoaded ()
+	{
+		$this->flashSelenium->open('http://localhost/colors.html');
+		$this->assertEquals(100, $this->flashSelenium->percentLoaded());
 	}
 
 	public function tearDown ()

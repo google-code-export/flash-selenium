@@ -22,21 +22,21 @@ class FlashSeleniumTest extends PHPUnit_Framework_TestCase
 	public function testShouldReturnJSForFunctionForSingleFunctionParameter ()
 	{
 		$flashSelenium  = new FlashSeleniumStub(null, "4242");
-		$retVal = $flashSelenium->jsForFunction("Function1", "42");
+		$retVal = $flashSelenium->jsForFunction("Function1", array("Function1", "42"));
 		$this->assertEquals("Function1('42');", $retVal);
 	}   
 	
 	public function testShouldReturnJSForFunctionForTwoFunctionParameters ()
 	{
 		$flashSelenium  = new FlashSeleniumStub(null, "4242");
-		$retVal = $flashSelenium->jsForFunction("Function1", "42", "24");
+		$retVal = $flashSelenium->jsForFunction("Function1", array("Function1", "42", "24"));
 		$this->assertEquals("Function1('42','24');", $retVal);
 	}
 	
 	public function testShouldReturnJSForFunctionWithNoParameter ()
 	{
 		$flashSelenium  = new FlashSeleniumStub(null, "4242");
-		$retVal = $flashSelenium->jsForFunction("Function1");
+		$retVal = $flashSelenium->jsForFunction("Function1", array('Function1'));
 		$this->assertEquals("Function1();", $retVal);
 	}
 	
@@ -61,7 +61,7 @@ class FlashSeleniumTest extends PHPUnit_Framework_TestCase
 	public function testShouldReturnJSFunctionCallForMSIE ()
 	{
 		$seleniumMock = $this->getMock('Testing_Selenium', array('getEval'), array('*iexplore','http://localhost'), '', false);
-		$seleniumMock->expects($this->any())->method('getEval')->with($this->equalTo('navigator.userAgent'))->will($this->returnValue('MSIE'));
+		$seleniumMock->expects($this->any())->method('getEval')->with($this->equalTo('navigator.userAgent'))->will($this->returnValue('Internet Explorer MSIE'));
 		$flashSelenium = new FlashSelenium($seleniumMock, "blah");
 		$retVal = $flashSelenium->checkBrowserAndReturnJSPrefix();
 		$this->assertEquals("window.document['blah'].", $retVal);
@@ -78,14 +78,26 @@ class FlashSeleniumTest extends PHPUnit_Framework_TestCase
 	
 	public function testShouldCallIsPlayingMethod ()
 	{
-		$seleniumMock = $this->getMock('Testing_Selenium', array('getEval'), array('*chrome','http://localhost'), '', false);
-		$seleniumMock->expects($this->any())->method('getEval')->with($this->equalTo('navigator.userAgent'))->will($this->returnValue('Mozilla/5.0 (Windows; U; Windows NT 6.0; en-GB; rv:1.8.1.19) Gecko/20081201 Firefox/3.0.0.1'));
-		$seleniumMock->expects($this->any())->method('getEval')->with($this->equalTo('window.document.isPlaying();'))->will($this->returnValue('true'));
+		$seleniumMock = $this->getMock('Testing_Selenium', array('getEval'), array('*chrome','http://localhost'), '', true);
+		$seleniumMock->expects($this->any())->method('getEval')->will($this->returnCallback(callbackFunc));
 		$flashSelenium = new FlashSelenium($seleniumMock, "blah");
-		$this->assertEquals('true', $flashSelenium->isPlaying());
+		$this->assertEquals(true, $flashSelenium->isPlaying());
 	}
 	
+}
 
+function callbackFunc ()
+{
+	$arg = func_get_args();
+	if ($arg[0] == 'navigator.userAgent') 
+	{
+		return 'Mozilla/5.0 (Windows; U; Windows NT 6.0; en-GB; rv:1.8.1.19) Gecko/20081201 Firefox/3.0.0.1';
+	}
+	if ($arg[0] == "window.document['blah'].IsPlaying();") 
+	{
+		return true;
+	}
+	return false;
 }
 
 #doc
