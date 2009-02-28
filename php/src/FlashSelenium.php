@@ -61,7 +61,7 @@ class FlashSelenium
 		return $this->selenium->getEval($function);
 	}
     
-    #Flash Functions
+    #Standard Methods
     public function isPlaying ()
     {
     	return $this->call('IsPlaying');
@@ -70,6 +70,128 @@ class FlashSelenium
     public function percentLoaded() 
     {
         return $this->call('PercentLoaded');
+    }
+    
+    public function getVariable ($name)
+    {
+    	return $this->call("GetVariable", $name);
+    }
+    
+    public function setVariable ($name, $value)
+    {
+    	return $this->call("SetVariable", $name, $value);
+    }
+    
+    public function gotoFrame ($value)
+    {
+    	return $this->call("GotoFrame", $value);
+    }
+    
+    public function loadMovie ($layerNumber, $url)
+    {
+    	return $this->call("LoadMovie", $layerNumber, $url);
+    }
+    
+    public function pan ($x, $y, $mode)
+    {
+    	return $this->call("Pan", $x, $y, $mode);
+    }
+    
+    public function play ()
+    {
+    	return $this->call("Play");
+    }
+    
+    public function rewind ()
+    {
+    	return $this->call("Rewind");
+    }
+    
+    public function setZoomRect ($left, $top, $right, $bottom)
+    {
+    	return $this->call("SetZoomRect", $left, $top, $right, $bottom);
+    }
+    
+    public function stopPlay ()
+    {
+    	return $this->call("StopPlay");
+    }
+    
+    public function totalFrames ()
+    {
+    	return $this->call("TotalFrames");
+    }
+    
+    public function zoom ($percent)
+    {
+    	return $this->call("Zoom", $percent);
+    }
+    
+    # TellTarget Methods
+    public function tCallFrame ($target, $frameNumber)
+    {
+    	return $this->call("TCallFrame", $target, $frameNumber);
+    }
+    
+    public function tCallLabel ($target, $label)
+    {
+    	return $this->call("TCallLabel", $target, $label);
+    }
+    
+    public function tCurrentFrame($target) 
+    {
+        return $this->call("TCurrentFrame", $target);
+    }
+
+    public function tCurrentLabel($target)
+    {
+        return $this->call("TCurrentLabel", $target);
+    }
+
+    public function tGetProperty($target, $property)
+    {
+        return $this->call("TGetProperty", $target, $property);
+    }
+
+    public function tGetPropertyAsNumber($target, $property)
+    {
+        return $this->call("TGetPropertyAsNumber", $target, $property);
+    }
+    
+    public function tGotoFrame($target, $frameNumber)
+    {
+        return $this->call("TGotoFrame", $target, $frameNumber);
+    }
+
+    public function tGotoLabel($target, $label)
+    {
+        return $this->call("TGotoLabel", $target, $label);
+    }
+
+    public function tPlay($target)
+    {
+        return $this->call("TPlay", $target);
+    }
+
+    public function tSetProperty($property, $value)
+    {
+        return $this->call("TSetProperty", $property, $value);
+    }
+
+    public function tStopPlay($target)
+    {
+        return $this->call("TStopPlay", $target);
+    }
+    
+    # Standard Events
+    public function onProgress ($percent)
+    {
+    	return $this->call("OnProgress", $percent);
+    }
+    
+    public function onReadyStateChange ($state)
+    {
+    	return $this->call("OnReadyStateChange", $state);
     }
     
     # Internal Functions

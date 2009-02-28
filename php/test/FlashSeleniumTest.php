@@ -84,20 +84,38 @@ class FlashSeleniumTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(true, $flashSelenium->isPlaying());
 	}
 	
+	public function testShouldCallPercentLoaded ()
+	{
+		$seleniumMock = $this->getMock('Testing_Selenium', array('getEval'), array('*chrome','http://localhost'), '', true);
+		$seleniumMock->expects($this->any())->method('getEval')->will($this->returnCallback(callbackFunc));
+		$flashSelenium = new FlashSelenium($seleniumMock, "blah");
+		$this->assertEquals(100, $flashSelenium->percentLoaded());
+	}
+	
+	public function testShouldSetAndGetVariable ()
+	{
+		$seleniumMock = $this->getMock('Testing_Selenium', array('getEval'), array('*chrome','http://localhost'), '', true);
+		$seleniumMock->expects($this->any())->method('getEval')->will($this->returnCallback(callbackFunc));
+		$flashSelenium = new FlashSelenium($seleniumMock, "blah");
+		$this->assertEquals(NULL, $flashSelenium->setVariable('name', 'value'));
+		$this->assertEquals('value', $flashSelenium->getVariable('name'));
+	}
+	
+	
 }
 
 function callbackFunc ()
 {
 	$arg = func_get_args();
-	if ($arg[0] == 'navigator.userAgent') 
+	switch ($arg[0])
 	{
-		return 'Mozilla/5.0 (Windows; U; Windows NT 6.0; en-GB; rv:1.8.1.19) Gecko/20081201 Firefox/3.0.0.1';
+		case 'navigator.userAgent' : return 'Mozilla/5.0 (Windows; U; Windows NT 6.0; en-GB; rv:1.8.1.19) Gecko/20081201 Firefox/3.0.0.1';
+		case "window.document['blah'].PercentLoaded();" : return 100;
+		case "window.document['blah'].IsPlaying();" : return true;
+		case "window.document['blah'].SetVariable('name', 'value');" : return NULL;
+		case "window.document['blah'].GetVariable('name');" : return 'value';
+		default: return false;
 	}
-	if ($arg[0] == "window.document['blah'].IsPlaying();") 
-	{
-		return true;
-	}
-	return false;
 }
 
 #doc
