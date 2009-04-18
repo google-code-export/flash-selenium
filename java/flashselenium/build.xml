@@ -1,0 +1,34 @@
+<project name="FlashSelenium" default="build">
+	
+	<property name="LIBS" value="lib" />
+	<property name="SOURCE" value="src" />
+	<property name="TEST" value="test" />
+	<property name="DIST" value="dist" />
+	<property name="BIN" value="bin" />
+	
+	<target name="build" depends="clean, compile, test, distribute" description="Builds Flash Selenium" />
+	
+	<target name="clean" description="Cleans the bin directory">
+		<echo message="Deleting and re-creating directory ${BIN}" />
+		<delete dir="${BIN}" />
+		<mkdir dir="${BIN}"/>
+	</target>
+	
+	<target name="compile" description="Compiles the code">
+		<javac srcdir="${SOURCE}" classpath="${LIBS}/selenium-java-client-driver.jar" destdir="${BIN}" />
+	</target>
+	
+	<target name="test" description="Runs unit tests">
+		<!--junit showoutput="true">
+			<test name="com.thoughtworks.selenium.TestBrowserPrefix"/>
+		</junit-->
+	</target>
+	
+	<target name="distribute" description="Create a distribution">
+		<exec executable="svn" outputproperty="svninfo" ><arg line="info"/></exec>
+		<exec executable="grep" outputproperty="revision" ></exec>
+		<echo message="${blah}" />
+		<jar destfile="${DIST}/flash-selenium.jar"></jar>	
+	</target>
+	
+</project>
