@@ -16,14 +16,14 @@ public class GapMinderTest extends TestCase {
 
 
 	public void setUp() {
-		selenium = new DefaultSelenium("localhost", 4444, "*firefox", URL);
+		selenium = new DefaultSelenium("localhost", 4444, "*chrome", URL);
 		selenium.start();
 		flashApp = new FlashSelenium(selenium, "uid");
 	}
 
 	public void tearDown() {
 		try {
-			selenium.waitForPageToLoad("10000");
+			selenium.waitForPageToLoad("20000");
 		} catch (SeleniumException e) {
 		}
 		selenium.stop();

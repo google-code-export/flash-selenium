@@ -9,7 +9,7 @@ import com.thoughtworks.selenium.Selenium;
  * driver extension for helping exercise the tests 
  * against the Flash component.  
  **/
-public class FlashSelenium {
+public class FlashSelenium implements IFlashSelenium {
 	private Selenium selenium;
 	private final String flashJSStringPrefix;
 
@@ -17,7 +17,7 @@ public class FlashSelenium {
 		this.selenium = selenium;
 		// verify the browser type
 		String appName = selenium.getEval("navigator.userAgent");
-		if (appName.contains(BrowserConstants.FIREFOX3) || appName.contains(BrowserConstants.IE)) {
+		if (appName.contains(com.thoughtworks.selenium.BrowserConstants.FIREFOX3) || appName.contains(com.thoughtworks.selenium.BrowserConstants.IE)) {
 			flashJSStringPrefix = createJSPrefix_window_document(flashObjectId);		
 		}
 		else {

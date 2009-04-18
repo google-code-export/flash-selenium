@@ -17,9 +17,9 @@ public class ColorsTest extends TestCase {
 	private final static String URL = "http://www.geocities.com/paulocaroli/flash/colors.html";
 	
 	public void setUp() {
-		selenium = new DefaultSelenium("localhost", 4444, "*firefox",URL);
+		selenium = new DefaultSelenium("localhost", 4444, "*chrome",URL);
 		selenium.start();
-		flashApp = new FlashSelenium(selenium, "clickcolors");
+		flashApp = new FlashSelenium(selenium, "coloredSquare");
 		selenium.open(URL);
 		assertEquals(100, flashApp.PercentLoaded());
 	}

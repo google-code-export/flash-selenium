@@ -13,7 +13,7 @@ public class NikeTest extends TestCase {
 	private final static String URL = "http://www.nike.com/g1/eu/index.jhtml?lang=1,4";
 
 	public void setUp() {
-		selenium = new DefaultSelenium("localhost", 4444, "*firefox", URL);
+		selenium = new DefaultSelenium("localhost", 4444, "*chrome", URL);
 		selenium.start();
 		flashApp = new FlashSelenium(selenium, "flid");
 		selenium.open(URL);
