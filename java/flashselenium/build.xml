@@ -1,34 +1,62 @@
 <project name="FlashSelenium" default="build">
 	
-	<property name="LIBS" value="lib" />
-	<property name="SOURCE" value="src" />
-	<property name="TEST" value="test" />
-	<property name="DIST" value="dist" />
-	<property name="BIN" value="bin" />
+	<property name="DIR.LIBS" value="lib" />
+	<property name="DIR.SOURCE" value="src" />
+	<property name="DIR.TEST" value="test" />
+	<property name="DIR.DIST" value="dist" />
+	<property name="DIR.BIN" value="bin" />
+	<property name="DIR.TEST.BIN" value="bin-test" />
 	
-	<target name="build" depends="clean, compile, test, distribute" description="Builds Flash Selenium" />
+	<path id="classpath.project">
+		<pathelement path="${DIR.BIN}"/>
+		<pathelement path="${DIR.LIBS}\\selenium-java-client-driver.jar"/>
+	</path>
 	
-	<target name="clean" description="Cleans the bin directory">
-		<echo message="Deleting and re-creating directory ${BIN}" />
-		<delete dir="${BIN}" />
-		<mkdir dir="${BIN}"/>
+	<path id="classpath.test">
+		<pathelement location="${DIR.LIBS}\\junit.jar"/>
+		<pathelement location="${DIR.LIBS}\\easymock.jar"/>
+	</path>
+	
+	<target name="build" depends="clean, compile, compile-test, test, distribute" description="Builds Flash Selenium" />
+	
+	<target name="clean" description="Cleans output directories">
+		<delete dir="${DIR.BIN}" />
+		<mkdir dir="${DIR.BIN}"/>
+		<delete dir="${DIR.TEST.BIN}" />
+		<mkdir dir="${DIR.TEST.BIN}" />
+		<delete dir="${DIR.DIST}" />
+		<mkdir dir="${DIR.DIST}" />
 	</target>
 	
 	<target name="compile" description="Compiles the code">
-		<javac srcdir="${SOURCE}" classpath="${LIBS}/selenium-java-client-driver.jar" destdir="${BIN}" />
+		<javac srcdir="${DIR.SOURCE}" destdir="${DIR.BIN}">
+			<classpath refid="classpath.project" />
+		</javac>
+	</target>
+	
+	<target name="compile-test">
+		<javac srcdir="${DIR.TEST}" destdir="${DIR.TEST.BIN}">
+			<classpath refid="classpath.project" />
+			<classpath refid="classpath.test"/>
+		</javac>
 	</target>
 	
 	<target name="test" description="Runs unit tests">
-		<!--junit showoutput="true">
-			<test name="com.thoughtworks.selenium.TestBrowserPrefix"/>
-		</junit-->
+		<echo level="info" message="Yet to be plugged in."/>
+		<!--<junit showoutput="on" haltonfailure="yes">
+			<classpath refid="classpath.test" />
+			<classpath refid="classpath.project" />
+			<formatter type="plain" usefile="no"/>
+			<batchtest>
+				<fileset dir="${DIR.TEST.BIN}/com/thoughtworks/selenium">
+					<include name="*"/>
+				</fileset>
+			</batchtest>
+		</junit>-->
 	</target>
 	
-	<target name="distribute" description="Create a distribution">
-		<exec executable="svn" outputproperty="svninfo" ><arg line="info"/></exec>
-		<exec executable="grep" outputproperty="revision" ></exec>
-		<echo message="${blah}" />
-		<jar destfile="${DIST}/flash-selenium.jar"></jar>	
+	<target name="distribute" depends="clean, compile" description="Create a distribution">
+		<jar jarfile="${DIR.DIST}/flash-selenium.jar" basedir="${DIR.BIN}" />
 	</target>
 	
 </project>
