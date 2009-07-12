@@ -1,7 +1,5 @@
 package com.thoughtworks.selenium;
 
-import java.util.Arrays;
-
 import com.thoughtworks.selenium.Selenium;
 
 /*
