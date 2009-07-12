@@ -29,7 +29,7 @@ public class TestFlashFunctionCall extends TestCase {
 	
 	public void setUp() {
 		selenium = createMock(Selenium.class);
-		flashApp = FlashSelenium.createFlashSeleniumFlashObjAsWindowDocument(selenium, FLASH_OBJ_ID);
+		flashApp = FlashSelenium.createFlashSelenium(selenium, FLASH_OBJ_ID);
 		flashMovieObj = flashApp.flashJSStringPrefix();
 	}
 

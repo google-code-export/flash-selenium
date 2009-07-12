@@ -22,7 +22,7 @@ public class TestBrowserPrefix extends TestCase {
 	
 	public void setUp() {
 		selenium = createMock(Selenium.class);
-		flashApp = FlashSelenium.createFlashSeleniumFlashObjAsWindowDocument(selenium, FLASH_OBJ_ID);
+		flashApp = FlashSelenium.createFlashSelenium(selenium, FLASH_OBJ_ID);
 	}
 
 	public void tearDown() {
@@ -30,19 +30,8 @@ public class TestBrowserPrefix extends TestCase {
 		flashApp = null;
 	}
 
-	public void testFlashSeleniumForIE() {
-		expect(selenium.getEval("navigator.userAgent")).andReturn("Firefox/2.0.0.42");
-		String expectedFunctionCall = FlashSelenium.createJSPrefix_document(FLASH_OBJ_ID) + FUNCTION + "();"; 
-		expect(selenium.getEval(expectedFunctionCall)).andReturn(RETURN_VALUE);
-		replay(selenium);
-		flashApp = new FlashSelenium(selenium, FLASH_OBJ_ID);
-		assertEquals(RETURN_VALUE, flashApp.call(FUNCTION));
-		verify(selenium);
-	}	
-	
-	public void testFlashSeleniumForNonIE() {
-		expect(selenium.getEval("navigator.userAgent")).andReturn("Firefox/3.0.0.1");
-		String expectedFunctionCall = FlashSelenium.createJSPrefix_window_document(FLASH_OBJ_ID) + FUNCTION + "();"; 
+	public void testJSPrefixFormation() {
+		String expectedFunctionCall = FlashSelenium.createJSPrefix_browserbot(FLASH_OBJ_ID) + FUNCTION + "();"; 
 		expect(selenium.getEval(expectedFunctionCall)).andReturn(RETURN_VALUE);
 		replay(selenium);
 		flashApp = new FlashSelenium(selenium, FLASH_OBJ_ID);

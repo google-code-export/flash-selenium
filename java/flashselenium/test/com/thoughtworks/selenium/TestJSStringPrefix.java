@@ -18,7 +18,7 @@ public class TestJSStringPrefix extends TestCase {
 	private String flashMovieObj;
 	
 	public void setUp() {
-		flashApp = FlashSelenium.createFlashSeleniumFlashObjAsWindowDocument(null, FLASH_OBJ_ID);
+		flashApp = FlashSelenium.createFlashSelenium(null, FLASH_OBJ_ID);
 		flashMovieObj = flashApp.flashJSStringPrefix();
 	}
 
