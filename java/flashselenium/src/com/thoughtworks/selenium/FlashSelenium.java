@@ -1,5 +1,7 @@
 package com.thoughtworks.selenium;
 
+import java.util.Arrays;
+
 import com.thoughtworks.selenium.Selenium;
 
 /*
@@ -15,15 +17,14 @@ public class FlashSelenium implements IFlashSelenium {
 
 	public FlashSelenium(Selenium selenium, String flashObjectId) {
 		this.selenium = selenium;
-		// verify the browser type
-		String appName = selenium.getEval("navigator.userAgent");
-		if (appName.contains(com.thoughtworks.selenium.BrowserConstants.FIREFOX3) || appName.contains(com.thoughtworks.selenium.BrowserConstants.IE)) {
-			flashJSStringPrefix = createJSPrefix_window_document(flashObjectId);		
-		}
-		else {
-			flashJSStringPrefix = createJSPrefix_document(flashObjectId);	
-		}
+		flashJSStringPrefix = getPrefix(flashObjectId);
 	}
+	
+	private String getPrefix(String flashObjectId){
+		String tryThisPrefix = createJSPrefix_browserbot(flashObjectId);
+		return tryThisPrefix;
+	}
+	
 	
 	// constructor used for test purpose
 	FlashSelenium(Selenium browser, String flashObjectId, String flashJSStringPrefix) {
@@ -33,24 +34,27 @@ public class FlashSelenium implements IFlashSelenium {
 
 	
 	// creational method used for test purpose
-	static FlashSelenium createFlashSeleniumFlashObjAsDocument(Selenium browser, String flashObjectId){
-		return new FlashSelenium(browser, flashObjectId, createJSPrefix_document(flashObjectId));
+	static FlashSelenium createFlashSelenium(Selenium browser, String flashObjectId){
+		return new FlashSelenium(browser, flashObjectId, createJSPrefix_browserbot(flashObjectId));
 	}
 	
-	static FlashSelenium createFlashSeleniumFlashObjAsWindowDocument(Selenium browser, String flashObjectId){
-		return new FlashSelenium(browser, flashObjectId, createJSPrefix_window_document(flashObjectId));
+	static String createJSPrefix_browserbot(String flashObjectId) {
+		return "this.browserbot.findElement(\"" + flashObjectId + "\").";
 	}
+	
 	
 	static String createJSPrefix_window_document(String flashObjectId) {
 		return "window.document['"
 			+ flashObjectId + "'].";	
 	}
-
+	
 	static String createJSPrefix_document(String flashObjectId) {
 		return "document['"
 			+ flashObjectId + "'].";
 	}
 
+
+	
 	public String call(String functionName, String ... args) {
 		return selenium.getEval(this.jsForFunction(functionName, args));
 	}	
