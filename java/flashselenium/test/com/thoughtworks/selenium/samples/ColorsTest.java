@@ -14,14 +14,14 @@ public class ColorsTest extends TestCase {
 	private final static String GREEN = "GREEN";
 	private final static String BLUE = "BLUE";
 	private final static String RED = "RED";
-	private final static String BASE_URL = "http://www.geocities.com/";
-	private final static String PAGE = "paulocaroli/flash/colors.html";
+	private final static String BASE_URL = "http://flashselenium.t35.com/";
+	private final static String PAGE = "colors.html";
 	
 	public void setUp() {
-		selenium = new DefaultSelenium("localhost", 4444, "*iexplore",BASE_URL);
+		selenium = new DefaultSelenium("localhost", 4444, "*firefoxproxy", BASE_URL);
 		selenium.start();
-		flashApp = new FlashSelenium(selenium, "clickcolors");
-		selenium.open(PAGE);
+		flashApp = new FlashSelenium(selenium, "coloredSquare");
+		selenium.open(BASE_URL+PAGE);
 		assertEquals(100, flashApp.PercentLoaded());
 	}
 
@@ -29,20 +29,20 @@ public class ColorsTest extends TestCase {
 		selenium.stop();
 	}
 	
-//	public void testColorTransition() {
-//		assertEquals("Clicking Colors", selenium.getTitle());
-//		assertEquals(GREEN, flashApp.call("getColor"));
-//		assertEquals("(Click here)", flashApp.call("getSquareLabel"));
-//		flashApp.call("click");
-//		assertEquals(BLUE, flashApp.call("getColor"));
-//		assertEquals(BLUE, flashApp.call("getSquareLabel"));
-//		flashApp.call("click");
-//		assertEquals(RED, flashApp.call("getColor"));
-//		assertEquals(RED, flashApp.call("getSquareLabel"));
-//		flashApp.call("click");
-//		assertEquals(GREEN, flashApp.call("getColor"));
-//		assertEquals(GREEN, flashApp.call("getSquareLabel"));
-//	}
+	public void testColorTransition() {
+		assertEquals("Clicking Colors", selenium.getTitle());
+		assertEquals(GREEN, flashApp.call("getColor"));
+		assertEquals("(Click here)", flashApp.call("getSquareLabel"));
+		flashApp.call("click");
+		assertEquals(BLUE, flashApp.call("getColor"));
+		assertEquals(BLUE, flashApp.call("getSquareLabel"));
+		flashApp.call("click");
+		assertEquals(RED, flashApp.call("getColor"));
+		assertEquals(RED, flashApp.call("getSquareLabel"));
+		flashApp.call("click");
+		assertEquals(GREEN, flashApp.call("getColor"));
+		assertEquals(GREEN, flashApp.call("getSquareLabel"));
+	}
 	
 	public void testRectangleLabel() {
 		assertEquals("(Click here)", flashApp.call("getSquareLabel"));
