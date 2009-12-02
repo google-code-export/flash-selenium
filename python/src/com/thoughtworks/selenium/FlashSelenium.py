@@ -130,11 +130,12 @@ class FlashSelenium(object):
     #### Custom Code ####
     
     def checkBrowserAndReturnJSPrefix(self):
-        appName = self.seleniumObj.get_eval("navigator.userAgent")
-        if (appName.find(self.browserConstants.firefox3()) is not -1) or (appName.find(self.browserConstants.msie()) is not -1):
-            return self.createJSPrefix_window_document(self.flashObjectId)
-        else:
-            return self.createJSPrefix_document(self.flashObjectId)
+	return self.createJSPrefix_browserbot(self.flashObjectId);
+        #appName = self.seleniumObj.get_eval("navigator.userAgent")
+        #if (appName.find(self.browserConstants.firefox3()) is not -1) or (appName.find(self.browserConstants.msie()) is not -1):
+        #    return self.createJSPrefix_window_document(self.flashObjectId)
+        #else:
+        #    return self.createJSPrefix_document(self.flashObjectId)
         
     def createJSPrefix_window_document(self, flashObjectId):
         return "window.document['" + flashObjectId + "'].";
@@ -149,3 +150,6 @@ class FlashSelenium(object):
                 functionArgs = functionArgs + "'" + str(arg) + "',"
             functionArgs = functionArgs[0:len(functionArgs)-1]
         return self.flashJSStringPrefix + functionName + "(" + functionArgs + ");"
+
+    def createJSPrefix_browserbot(self, flashObjectId):
+        return "this.browserbot.findElement(\"" + flashObjectId + "\").";

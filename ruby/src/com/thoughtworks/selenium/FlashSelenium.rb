@@ -159,20 +159,11 @@ class FlashSelenium
   #### Custom Methods ####
   
   def checkBrowserAndReturnJSPrefix()
-    indexOfMicrosoft = @selenium.get_eval("navigator.appName.indexOf(\"Microsoft Internet\")")
-    if (indexOfMicrosoft != -1)
-      return createJSPrefix_window_document(@flashObjectId)
-    else
-      return createJSPrefix_document(@flashObjectId)
-    end
+    return createJSPrefix_browserbot(@flashObjectId);
   end
   
-  def createJSPrefix_window_document(flashObjectId)
-    return "window.document[\'" + flashObjectId + "\'].";
-  end
-  
-  def createJSPrefix_document(flashObjectId)
-    return "document[\'" + flashObjectId + "\'].";
+  def createJSPrefix_browserbot(flashObjectId)
+    return "this.browserbot.findElement(\"" + flashObjectId + "\").";
   end
   
   def jsForFunction(functionName, *args)

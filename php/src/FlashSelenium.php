@@ -52,12 +52,13 @@ class FlashSelenium
     
     public function waitForPageLoad($timeout) {
 		$this->selenium->waitForPageToLoad($timeout);
-	}
+    }
+
 	
 	public function call() {
-        $params = func_get_args();
-        $this->jsPrefix = $this->checkBrowserAndReturnJSPrefix();
-        $function = $this->jsForFunction($params[0], $params);
+        	$params = func_get_args();
+        	$this->jsPrefix = $this->checkBrowserAndReturnJSPrefix();
+        	$function = $this->jsForFunction($params[0], $params);
 		return $this->selenium->getEval($function);
 	}
     
@@ -211,23 +212,12 @@ class FlashSelenium
     
     public function checkBrowserAndReturnJSPrefix ()
     {
-        $appName = $this->selenium->getEval('navigator.userAgent');
-        $browserConstants = new BrowserConstants();
-        if (strripos($appName, $browserConstants->Firefox3()) or strripos($appName, $browserConstants->SAFARI()) or strripos($appName, $browserConstants->IE()) or strripos($appName, $browserConstants->OPERA()))
-        {
-            return $this->createJSPrefix_window_document();
-        }
-        return $this->createJSPrefix_document();
+	return $this->createJSPrefix_browserbot();
     }
     
-    protected function createJSPrefix_document ()
+    protected function createJSPrefix_browserbot ()
     {
-    	return "document['" . $this->flashObjectId . "'].";
-    }
-    
-    protected function createJSPrefix_window_document ()
-    {
-    	return "window.document['" . $this->flashObjectId . "'].";
+    	return "this.browserbot.findElement(\"" . $this->flashObjectId . "\").";
     }
     
 }

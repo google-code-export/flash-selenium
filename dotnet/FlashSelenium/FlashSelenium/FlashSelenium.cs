@@ -79,22 +79,12 @@ namespace FlashSelenium
 
         protected string checkBrowserAndReturnJSPrefix()
         {
-            string appName = selenium.GetEval("navigator.userAgent");
-            if (appName.Contains(BrowserConstants.FIREFOX3) || appName.Contains(BrowserConstants.IE) || appName.Contains(BrowserConstants.SAFARI) || appName.Contains(BrowserConstants.OPERA))
-            {
-                return createJSPrefix_window_document();
-            }
-            return createJSPrefix_document();
+	    return createJSPrefix_browserbot();
         }
 
-        private string createJSPrefix_document()
+        private string createJSPrefix_browserbot()
         {
-            return "document['" + flashObjectId + "'].";
-        }
-
-        private string createJSPrefix_window_document()
-        {
-            return "window.document['" + flashObjectId + "'].";
+            return "this.browserbot.findElement(\"" + this.flashObjectId + "\").";
         }
 
         // Standard Methods

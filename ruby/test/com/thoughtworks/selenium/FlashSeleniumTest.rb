@@ -25,11 +25,11 @@ require 'ruby/src/com/thoughtworks/selenium/FlashSelenium.rb'
 
 class FlashSeleniumTest < Test::Unit::TestCase
   
-  #URL = "http://localhost:1978/wiki/colors.html"
-  URL = "http://localhost:1978/wiki/test.html"
+  #This will test the ebrochure flash movie
+  URL = "http://flashselenium.t35.com/test.html"
   
   def setup()
-    @selenium = Selenium::SeleniumDriver.new("localhost", 4444, "*chrome", "http://localhost:4444");
+    @selenium = Selenium::SeleniumDriver.new("localhost", 4444, "*chrome", "http://flashselenium.t35.com");
     @flashSelenium = FlashSelenium.new(@selenium, 'ebrochure')
     @flashSelenium.start
     @flashSelenium.open(URL)

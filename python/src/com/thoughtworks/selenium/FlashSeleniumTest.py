@@ -25,25 +25,25 @@ from FlashSelenium import FlashSelenium
 
 class FlashSeleniumTest(unittest.TestCase):
     
-    URL = "http://localhost/colors.html"
+    URL = "http://flashselenium.t35.com/colors.html"
     
     def setUp(self):
-        self.seleniumObj = selenium("localhost", 4444, "*firefox", self.URL)
+        self.seleniumObj = selenium("localhost", 4444, "*firefoxproxy", self.URL)
         self.seleniumObj.set_speed(1000)
-        self.flashSeleniumObj = FlashSelenium(self.seleniumObj, "clickcolors")
+        self.flashSeleniumObj = FlashSelenium(self.seleniumObj, "coloredSquare")
         self.flashSeleniumObj.start()
         
     def tearDown(self):
         self.flashSeleniumObj.stop()
 
-    def testShouldOpenGoogleHomePage(self):
+    def _testShouldOpenGoogleHomePage(self):
         seleniumObj = selenium("localhost", 4444, "*firefox", "http://www.google.co.in")
         seleniumObj.start()
         seleniumObj.open("http://www.google.co.in")
         self.assertEquals("Google", seleniumObj.get_title())
         seleniumObj.stop()
     
-    def testShouldCreateFlashSeleniumObject(self):
+    def _testShouldCreateFlashSeleniumObject(self):
         self.assertTrue(self.flashSeleniumObj is not None)
         self.assertEquals(FlashSelenium(None, "").__class__, self.flashSeleniumObj.__class__)
 
@@ -102,7 +102,7 @@ class FlashSeleniumTest(unittest.TestCase):
     def testShouldGetNavigatorName(self):
     	self.flashSeleniumObj.open(self.URL)
         retVal = self.flashSeleniumObj.checkBrowserAndReturnJSPrefix()
-        self.assertEquals("window.document['clickcolors'].", retVal);
+        self.assertEquals("window.document['coloredSquare'].", retVal);
         
 if __name__ == '__main__':
         unittest.main()

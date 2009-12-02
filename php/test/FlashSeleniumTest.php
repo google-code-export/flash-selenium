@@ -135,14 +135,9 @@ class FlashSeleniumStub extends FlashSelenium
 	}
 	###	
 	
-	public function createJSPrefix_document ()
+	public function createJSPrefix_browserbot ()
 	{
-		return parent::createJSPrefix_document();
-	}
-	
-	public function createJSPrefix_window_document ()
-	{
-		return parent::createJSPrefix_window_document();
+		return parent::createJSPrefix_browserbot();
 	}
 	
 }

@@ -1,10 +1,12 @@
-﻿package {
+package {
   import flash.display.Sprite;
   import flash.events.MouseEvent;  
   import flash.external.ExternalInterface;
-  import flash.text.TextField;
+	import flash.system.SecurityPanel;
+	import flash.text.TextField;
   import flash.text.TextFieldAutoSize;
   import flash.text.TextFormat;
+  import flash.system.Security;
 
   public class ColoredSquare extends Sprite {
     private const COLOR_HEX_VALUES:Array = [0x00ff00,0x0000ff, 0xff0000];
@@ -17,6 +19,8 @@
     private var label:TextField = new TextField();
 
     public function ColoredSquare() {
+    	Security.allowDomain("localhost");
+    	Security.allowInsecureDomain("localhost");
       currentColor = COLOR_HEX_VALUES[currentColorIndex % 3];
       updateButtonLabel();
       drawButton();
